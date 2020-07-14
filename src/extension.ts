@@ -10,8 +10,9 @@ function getConfig<T>(configPath: string): T {
 	return vscode.workspace.getConfiguration().get(EXTENSION_NAME + "." + configPath) as T;
 }
 
+const outWin = vscode.window.createOutputChannel(EXTENSION_NAME);
+
 export function activate(context: vscode.ExtensionContext) {
-	var outWin = vscode.window.createOutputChannel(EXTENSION_NAME);
 
 	var l_command = fn_symbol;
 
@@ -109,11 +110,15 @@ function exec(term: string, command: string, input: string): Promise<string> {
 		errStr += err.toString();
 	});
 	
+	outWin.append(errStr);
+	outWin.show();
+
 	return new Promise((resolve, reject) => {
 		cmd.on('close', function (code: any) {
 			clearTimeout(timeoutID);
-			if (code == 0)
+			if (code == 0) {
 				resolve(outStr);
+			}
 			else {
 				if (errStr === "")
 					reject(outStr);
