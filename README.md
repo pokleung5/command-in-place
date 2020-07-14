@@ -1,8 +1,6 @@
 # command-in-place
 
-Not published to MarketPlace.
-
-First VSCode extension created. For fun. 
+First VSCode extension created. For fun, not published to MarketPlace.
 Inspired by: https://github.com/ryu1kn/vscode-edit-with-shell/
 
 
