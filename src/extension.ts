@@ -15,8 +15,19 @@ const outWin = vscode.window.createOutputChannel(EXTENSION_NAME);
 export function activate(context: vscode.ExtensionContext) {
 
 	var l_command = fn_symbol;
+	var command_history = [];
 
-	let disposable = vscode.commands.registerCommand(EXTENSION_NAME + '.runCommand',
+	context.subscriptions.push(vscode.commands.registerCommand(EXTENSION_NAME + '.showHistory',
+		() => {
+			var outStr = "";
+			for (var i = command_history.length; i > 0; i--) { 
+				outStr += i + ":\n";
+				outStr += command_history[i] + "\n";
+			}
+		})
+	);
+
+	context.subscriptions.push(vscode.commands.registerCommand(EXTENSION_NAME + '.runCommand',
 		async () => {
 			const command = await vscode.window.showInputBox({
 				placeHolder: 'Enter a command',
@@ -28,6 +39,8 @@ export function activate(context: vscode.ExtensionContext) {
 			if (command == undefined || editor == undefined) {
 				return 1;
 			}
+			
+			command_history.push(command);
 
 			let n_command = command;
 			l_command = command;
@@ -71,9 +84,8 @@ export function activate(context: vscode.ExtensionContext) {
 				outWin.show();
 			});
 
-		});
-
-	context.subscriptions.push(disposable);
+		})
+	);
 }
 
 export function deactivate() { }

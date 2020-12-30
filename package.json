@@ -18,6 +18,10 @@
 			{
 				"command": "command-in-place.runCommand",
 				"title": "command-in-place: Run Command in place"
+			},
+			{
+				"command": "command-in-place.showHistory",
+				"title": "command-in-place: list all command history"
 			}
 		],
 		"configuration": [
