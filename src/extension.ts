@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 				value: l_command
 			});
 
-			const editor = vscode.window.activeTextEditor
+			const editor = vscode.window.activeTextEditor;
 
 			if (command == undefined || editor == undefined) {
 				return 1;
@@ -40,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
 				if (fn_path.includes(":")) {
 					if (term === 'cmd') {
 						n_command = command.replace(fn_symbol, fn_path);
-					} else { 
+					} else {
 						fn_path = "\\" + fn_path.replace(":", "");
 						fn_path = fn_path.replace(/\\/g, "/");
 
@@ -63,14 +63,14 @@ export function activate(context: vscode.ExtensionContext) {
 						editBuilder.replace(selection, resolves[index]);
 					});
 				});
-			}).catch(rejects => { 
+			}).catch(rejects => {
 				outWin.clear();
 				outWin.append(rejects);
-				
+
 				vscode.window.showErrorMessage("Please check output window !");
 				outWin.show();
 			});
-		
+
 		});
 
 	context.subscriptions.push(disposable);
@@ -83,7 +83,7 @@ function exec(term: string, command: string, input: string): Promise<string> {
 
 	let options = getConfig<Array<string>>("options").join(" ");
 	let timeout = getConfig<number>("timeout");
-	
+
 	if (command.includes(delim)) {
 		timeout = parseInt(command.split(delim)[1]);
 		command = command.split(delim)[0];
@@ -94,7 +94,7 @@ function exec(term: string, command: string, input: string): Promise<string> {
 		cmd.kill();
 		vscode.window.showErrorMessage('Time out !!');
 	}, timeout);
-	
+
 	if (input) {
 		cmd.stdin.write(input);
 		cmd.stdin.end();
@@ -109,9 +109,6 @@ function exec(term: string, command: string, input: string): Promise<string> {
 	cmd.stderr.on('data', function (err: any) {
 		errStr += err.toString();
 	});
-	
-	outWin.append(errStr);
-	outWin.show();
 
 	return new Promise((resolve, reject) => {
 		cmd.on('close', function (code: any) {
@@ -125,6 +122,6 @@ function exec(term: string, command: string, input: string): Promise<string> {
 				else
 					reject(errStr);
 			}
-		});	
+		});
 	});
 }
