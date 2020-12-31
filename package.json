@@ -18,6 +18,10 @@
 			{
 				"command": "command-in-place.runCommand",
 				"title": "command-in-place: Run Command in place"
+			},
+			{
+				"command": "command-in-place.showHistory",
+				"title": "command-in-place: List all command history"
 			}
 		],
 		"configuration": [
@@ -48,6 +52,11 @@
 						"default": [
 							"/c"
 						]
+					},
+					"command-in-place.maxhistory": {
+						"description": "Max command history for list",
+						"type": "number",
+						"default": 25
 					}
 				}
 			}
